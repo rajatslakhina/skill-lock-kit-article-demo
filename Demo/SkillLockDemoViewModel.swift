@@ -126,12 +126,12 @@ final class SkillLockDemoViewModel: ObservableObject {
         ))
 
         var policy = SkillGovernancePolicy()
-        // uikit-app-modernization's removal was reviewed and accepted (it was
-        // folded into swiftui-specialist upstream) — this is the one drift
-        // that passes the gate. swiftui-specialist's content change,
-        // c-bounds-safety's removal, and app-resizability's addition are all
-        // left unacknowledged on purpose, so the demo's CI banner fails —
-        // that failure is the point: nobody has reviewed them yet.
+        // In this scenario, uikit-app-modernization's removal was reviewed
+        // and accepted by the team — this is the one drift that passes the
+        // gate. swiftui-specialist's content change, c-bounds-safety's
+        // removal, and app-resizability's addition are all left
+        // unacknowledged on purpose, so the demo's CI banner fails; that
+        // failure is the point, nobody has reviewed them yet.
         policy.acknowledgeRemoval("uikit-app-modernization")
 
         return SkillLockDemoViewModel(locked: locked, live: live, policy: policy)
