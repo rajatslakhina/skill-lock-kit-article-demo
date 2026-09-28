@@ -96,4 +96,4 @@ acknowledgment gate, and the specific way an early draft of it was wrong.
 
 ## Article
 
-Article: (added after publish)
+Article: [My First Draft of an Agent-Skill Lockfile's Acknowledgment Gate Had the Exact Bug It Was Built to Prevent](https://medium.com/@er.rajatlakhina/my-first-draft-of-an-agent-skill-lockfiles-acknowledgment-gate-had-the-exact-bug-it-was-built-to-771a514f4e97)
