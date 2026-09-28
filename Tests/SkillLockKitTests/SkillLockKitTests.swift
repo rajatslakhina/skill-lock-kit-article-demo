@@ -82,10 +82,10 @@ final class SkillLockKitTests: XCTestCase {
     }
 
     func testChangedContentIsDetectedEvenWithSameVersionString() {
-        // This is the exact failure mode the article stakes its claim on:
-        // Apple can change a skill's *instructions* between betas while
-        // leaving the version label alone, so hashing content (not trusting
-        // the version string) is the load-bearing design decision.
+        // This is the exact failure mode the whole package exists to catch:
+        // if a skill's *instructions* ever changed while its version label
+        // stayed the same, hashing content (not trusting the version
+        // string) is the load-bearing design decision that still catches it.
         let locked = SkillLockfile(entries: [
             SkillDefinition(name: "swiftui-specialist", version: "27.2", markdownContent: "prefer dynamic frameworks", sourceToolchain: "Xcode 27.2")
         ])
@@ -166,7 +166,7 @@ final class SkillLockKitTests: XCTestCase {
         // A human reviewed and accepted the FIRST 27.2 content (hash "bbb").
         policy.acknowledge("swiftui-specialist", contentHash: "bbb")
 
-        // Apple ships a SECOND change under the same "27.2" label (hash "ccc").
+        // A SECOND change ships under the same "27.2" label (hash "ccc").
         let secondDrift = SkillDrift.changed(
             name: "swiftui-specialist",
             locked: SkillDefinition(name: "swiftui-specialist", version: "27.2", contentHash: "bbb", sourceToolchain: "Xcode 27.2"),
