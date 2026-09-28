@@ -5,9 +5,8 @@ import Foundation
 /// goes through the same gate as a compiler bump" prescription turned into
 /// code: drift is not automatically bad, but *unacknowledged* drift is.
 public enum SkillGovernanceVerdict: Equatable, Sendable {
-    /// Drift exists but the skill is explicitly acknowledged in this policy's
-    /// `acknowledgedThroughVersion` map at a version at or after the live
-    /// one — someone reviewed this bump on purpose.
+    /// Drift exists but a human has already reviewed and accepted this exact
+    /// live content.
     case acknowledged(SkillDrift)
 
     /// Drift exists and nothing in the policy accounts for it. This is what
@@ -17,40 +16,64 @@ public enum SkillGovernanceVerdict: Equatable, Sendable {
 }
 
 /// A minimal, deliberately small governance policy: for each skill name, the
-/// highest version a human has reviewed and accepted. Anything beyond that
-/// is unacknowledged drift and fails the gate.
+/// exact content hash a human has reviewed and accepted. Anything else is
+/// unacknowledged drift and fails the gate.
+///
+/// This is keyed on **content hash, not version label**, on purpose. An
+/// earlier draft of this policy keyed on version instead — acknowledge
+/// `"swiftui-specialist"` through `"27.2"` and any future content shipped
+/// under that same `27.2` label would pass forever, silently. That reopens
+/// the exact hole this whole package exists to close: a version string is
+/// not a promise that the content underneath it is stable. Keying on the
+/// hash means a genuinely new acknowledgment is required every time the
+/// content actually changes, whatever the version label says.
 public struct SkillGovernancePolicy: Sendable {
-    public private(set) var acknowledgedThroughVersion: [String: String]
+    public private(set) var acknowledgedContentHashes: [String: String]
 
-    public init(acknowledgedThroughVersion: [String: String] = [:]) {
-        self.acknowledgedThroughVersion = acknowledgedThroughVersion
+    /// Sentinel values used for `.added` / `.removed` drifts, which have no
+    /// content hash to compare on the missing side. Spelled out as constants
+    /// rather than magic strings so a policy file reads as an explicit
+    /// decision, not a coincidence.
+    public static let acknowledgedAdded = "ACKNOWLEDGED_ADDED"
+    public static let acknowledgedRemoved = "ACKNOWLEDGED_REMOVED"
+
+    public init(acknowledgedContentHashes: [String: String] = [:]) {
+        self.acknowledgedContentHashes = acknowledgedContentHashes
     }
 
-    public mutating func acknowledge(_ skillName: String, throughVersion version: String) {
-        acknowledgedThroughVersion[skillName] = version
+    /// Records that a human has reviewed and accepted a skill at exactly
+    /// this content hash. Call this with `definition.contentHash` for the
+    /// live definition you just reviewed — never with a version string.
+    public mutating func acknowledge(_ skillName: String, contentHash: String) {
+        acknowledgedContentHashes[skillName] = contentHash
     }
 
-    /// Evaluates a set of drifts against this policy. `removed` and `added`
-    /// drifts are never silently acknowledged by a version string (there is
-    /// no version to compare), so they always require an explicit name-level
-    /// entry in `acknowledgedThroughVersion` mapped to the literal string
-    /// "removed" / "added" respectively — this keeps the policy file honest
-    /// about *what* was reviewed rather than rubber-stamping by coincidence.
+    /// Convenience for the `.added` / `.removed` cases, which have no single
+    /// content hash to pin (the skill either exists or doesn't).
+    public mutating func acknowledgeAddition(_ skillName: String) {
+        acknowledgedContentHashes[skillName] = Self.acknowledgedAdded
+    }
+
+    public mutating func acknowledgeRemoval(_ skillName: String) {
+        acknowledgedContentHashes[skillName] = Self.acknowledgedRemoved
+    }
+
+    /// Evaluates a set of drifts against this policy.
     public func evaluate(_ drifts: [SkillDrift]) -> [SkillGovernanceVerdict] {
         drifts.map { drift in
             switch drift {
             case .changed(let name, _, let live):
-                if let acknowledged = acknowledgedThroughVersion[name], acknowledged == live.version {
+                if acknowledgedContentHashes[name] == live.contentHash {
                     return .acknowledged(drift)
                 }
                 return .unacknowledged(drift)
             case .added(let definition):
-                if acknowledgedThroughVersion[definition.name] == "added" {
+                if acknowledgedContentHashes[definition.name] == Self.acknowledgedAdded {
                     return .acknowledged(drift)
                 }
                 return .unacknowledged(drift)
             case .removed(let definition):
-                if acknowledgedThroughVersion[definition.name] == "removed" {
+                if acknowledgedContentHashes[definition.name] == Self.acknowledgedRemoved {
                     return .acknowledged(drift)
                 }
                 return .unacknowledged(drift)
