@@ -68,11 +68,11 @@ let failures = policy.unacknowledgedDrifts(in: drifts)
   `XCLocalSwiftPackageReference` with `relativePath = "."` (the package's
   own `Package.swift` sits at the repo root, next to `Demo.xcodeproj`).
 - **Simulator run: not done yet.** I haven't opened this in Xcode and run
-  it on Simulator this round, so there's no screenshot here and none
-  implied. The library and its behavior are verified by the passing test
-  suite and by the structural checks on the Xcode project above, not by a
-  Simulator screenshot. If you clone this and hit a build issue Xcode would
-  have caught, please open an issue.
+  it on Simulator, so there's no screenshot here and none implied. The
+  library and its behavior are verified by the passing test suite and by
+  the structural checks on the Xcode project above, not by a Simulator
+  screenshot. If you clone this and hit a build issue Xcode would have
+  caught, please open an issue.
 
 ## How to run it
 
