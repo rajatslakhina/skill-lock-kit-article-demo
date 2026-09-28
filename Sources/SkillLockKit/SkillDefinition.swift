@@ -6,8 +6,8 @@ import Foundation
 ///
 /// `contentHash` is computed from the skill's full Markdown body via
 /// ``SkillContentHasher``, so two skills with the same declared `version`
-/// string but different instructions (which happens across Xcode betas)
-/// still compare as different.
+/// string but different instructions still compare as different — the
+/// version label is never trusted as a proxy for content.
 public struct SkillDefinition: Codable, Equatable, Sendable {
     public let name: String
     public let version: String
