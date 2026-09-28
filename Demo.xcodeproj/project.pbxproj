@@ -1,0 +1,289 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		8C4BDA47934EE89AA51C59A9 /* DemoApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55640041817D4E171071AD4C /* DemoApp.swift */; };
+		52A73BDE64EE31D51283C78C /* SkillLockDemoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33049D4E3B8A3CC6743A74CD /* SkillLockDemoViewModel.swift */; };
+		2ED496C774CC3B347C5D001C /* SkillLockDemoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E01C541D86065499EE116AEF /* SkillLockDemoView.swift */; };
+		03BD174F2736A9C8787C28A7 /* SkillLockKit in Frameworks */ = {isa = PBXBuildFile; productRef = 15602A3FADB52970B97EFEC6 /* SkillLockKit */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		1C603EBE66E688D55E056F41 /* Demo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Demo.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		55640041817D4E171071AD4C /* DemoApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoApp.swift; sourceTree = "<group>"; };
+		33049D4E3B8A3CC6743A74CD /* SkillLockDemoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SkillLockDemoViewModel.swift; sourceTree = "<group>"; };
+		E01C541D86065499EE116AEF /* SkillLockDemoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SkillLockDemoView.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		98D8D9114C34E4368B5229E4 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				03BD174F2736A9C8787C28A7 /* SkillLockKit in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		A50DB267ADFC2AF650AA82FD = {
+			isa = PBXGroup;
+			children = (
+				F6B7F18439644C77CD7C0D8D /* Demo */,
+				FD128C9D68E8B6D9D3039CD4 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		FD128C9D68E8B6D9D3039CD4 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				1C603EBE66E688D55E056F41 /* Demo.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		F6B7F18439644C77CD7C0D8D /* Demo */ = {
+			isa = PBXGroup;
+			children = (
+				55640041817D4E171071AD4C /* DemoApp.swift */,
+				33049D4E3B8A3CC6743A74CD /* SkillLockDemoViewModel.swift */,
+				E01C541D86065499EE116AEF /* SkillLockDemoView.swift */,
+			);
+			path = Demo;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		B31571743E7B571CCE999E81 /* Demo */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1073C1A2C892E63170531240 /* Build configuration list for PBXNativeTarget "Demo" */;
+			buildPhases = (
+				9BD20A8D0AF2E38911CFD65F /* Sources */,
+				98D8D9114C34E4368B5229E4 /* Frameworks */,
+				70E03A97C2558E1A2D98F114 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Demo;
+			packageProductDependencies = (
+				15602A3FADB52970B97EFEC6 /* SkillLockKit */,
+			);
+			productName = Demo;
+			productReference = 1C603EBE66E688D55E056F41 /* Demo.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		9817D12FDFDC45CBBB11B619 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1620;
+				LastUpgradeCheck = 1620;
+				TargetAttributes = {
+					B31571743E7B571CCE999E81 = {
+						CreatedOnToolsVersion = 16.2;
+					};
+				};
+			};
+			buildConfigurationList = 33041F99C1992C703C454D91 /* Build configuration list for PBXProject "Demo" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = A50DB267ADFC2AF650AA82FD;
+			packageReferences = (
+				969DF4C58BB85D1E7CCE5491 /* XCLocalSwiftPackageReference ".." */,
+			);
+			productRefGroup = FD128C9D68E8B6D9D3039CD4 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				B31571743E7B571CCE999E81 /* Demo */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		70E03A97C2558E1A2D98F114 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		9BD20A8D0AF2E38911CFD65F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8C4BDA47934EE89AA51C59A9 /* DemoApp.swift in Sources */,
+				52A73BDE64EE31D51283C78C /* SkillLockDemoViewModel.swift in Sources */,
+				2ED496C774CC3B347C5D001C /* SkillLockDemoView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		BAAD82D96EAC563A6B316276 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		AE0E70092FD0484E2CE71AF4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_VERSION = 5.0;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		119D38A1D96CBB5A28B1990C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GENERATE_ASSET_SYMBOLS = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "";
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "dev.rajatlakhina.SkillLockKitDemo";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		C70E30D3F712E336086CAFC6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GENERATE_ASSET_SYMBOLS = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "";
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "dev.rajatlakhina.SkillLockKitDemo";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		33041F99C1992C703C454D91 /* Build configuration list for PBXProject "Demo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BAAD82D96EAC563A6B316276 /* Debug */,
+				AE0E70092FD0484E2CE71AF4 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		1073C1A2C892E63170531240 /* Build configuration list for PBXNativeTarget "Demo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				119D38A1D96CBB5A28B1990C /* Debug */,
+				C70E30D3F712E336086CAFC6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCLocalSwiftPackageReference section */
+		969DF4C58BB85D1E7CCE5491 /* XCLocalSwiftPackageReference ".." */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = "..";
+		};
+/* End XCLocalSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		15602A3FADB52970B97EFEC6 /* SkillLockKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = SkillLockKit;
+		};
+/* End XCSwiftPackageProductDependency section */
+	};
+	rootObject = 9817D12FDFDC45CBBB11B619 /* Project object */;
+}
