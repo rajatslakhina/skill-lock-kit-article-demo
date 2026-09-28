@@ -121,7 +121,7 @@ final class SkillLockDemoViewModel: ObservableObject {
         live.lock(SkillDefinition(
             name: "app-resizability",
             version: "27.1",
-            markdownContent: "Audit fixed-frame modifiers ahead of iPhone Duo's variable-width scenes.",
+            markdownContent: "Audit fixed-frame modifiers that assume a single fixed window width.",
             sourceToolchain: "Xcode 27.1"
         ))
 
