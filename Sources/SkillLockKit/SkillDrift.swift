@@ -4,8 +4,7 @@ import Foundation
 /// skills currently bundled in an installed toolchain.
 public enum SkillDrift: Equatable, Sendable {
     /// A skill the live toolchain exports that the lockfile has never seen —
-    /// e.g. a new skill added in a point release (`app-resizability` landed
-    /// in Xcode 27.1 with no announcement beyond a release note).
+    /// e.g. a new skill added in a later point release.
     case added(SkillDefinition)
 
     /// A skill the lockfile pins that the live toolchain no longer exports.
@@ -13,10 +12,10 @@ public enum SkillDrift: Equatable, Sendable {
     /// still reference the skill by name.
     case removed(SkillDefinition)
 
-    /// Same skill name, different content or version between the locked
-    /// snapshot and the live export — the exact failure mode the article
-    /// argues nobody is watching for: two engineers on two Xcode builds
-    /// silently getting different architectural advice.
+    /// Same skill name, different content between the locked snapshot and
+    /// the live export — including, deliberately, the case where the
+    /// version label on both sides is identical. Comparing content hashes
+    /// rather than trusting the label is the whole reason this type exists.
     case changed(name: String, locked: SkillDefinition, live: SkillDefinition)
 
     public var skillName: String {
