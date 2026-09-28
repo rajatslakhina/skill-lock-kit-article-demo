@@ -130,29 +130,51 @@ final class SkillLockKitTests: XCTestCase {
 
     func testUnacknowledgedChangeFailsTheGate() {
         var policy = SkillGovernancePolicy()
-        policy.acknowledge("swiftui-specialist", throughVersion: "27.1") // stale ack
+        policy.acknowledge("swiftui-specialist", contentHash: "some-older-hash") // stale ack
 
         let drift = SkillDrift.changed(
             name: "swiftui-specialist",
-            locked: SkillDefinition(name: "swiftui-specialist", version: "27.1", contentHash: "aaa", sourceToolchain: "Xcode 27.1"),
+            locked: SkillDefinition(name: "swiftui-specialist", version: "27.2", contentHash: "aaa", sourceToolchain: "Xcode 27.2"),
             live: SkillDefinition(name: "swiftui-specialist", version: "27.2", contentHash: "bbb", sourceToolchain: "Xcode 27.2")
         )
 
         let failures = policy.unacknowledgedDrifts(in: [drift])
-        XCTAssertEqual(failures.count, 1, "an ack pinned to an older version must not cover a newer drift")
+        XCTAssertEqual(failures.count, 1, "an ack pinned to a stale content hash must not cover a newer drift")
     }
 
-    func testAcknowledgedChangeAtExactLiveVersionPasses() {
+    func testAcknowledgedChangeAtExactLiveContentHashPasses() {
         var policy = SkillGovernancePolicy()
-        policy.acknowledge("swiftui-specialist", throughVersion: "27.2")
+        policy.acknowledge("swiftui-specialist", contentHash: "bbb")
 
         let drift = SkillDrift.changed(
             name: "swiftui-specialist",
-            locked: SkillDefinition(name: "swiftui-specialist", version: "27.1", contentHash: "aaa", sourceToolchain: "Xcode 27.1"),
+            locked: SkillDefinition(name: "swiftui-specialist", version: "27.2", contentHash: "aaa", sourceToolchain: "Xcode 27.2"),
             live: SkillDefinition(name: "swiftui-specialist", version: "27.2", contentHash: "bbb", sourceToolchain: "Xcode 27.2")
         )
 
         XCTAssertTrue(policy.unacknowledgedDrifts(in: [drift]).isEmpty)
+    }
+
+    /// Regression test for the exact hole an earlier, version-keyed draft of
+    /// this policy had: acknowledging a skill "through 27.2" would silently
+    /// cover *any later content* still labeled 27.2 (a 27.2.0 -> 27.2.1
+    /// content change, say). Keying acknowledgment on content hash instead
+    /// means a second, genuinely new content change under the same version
+    /// label is unacknowledged drift again, not a free pass.
+    func testSameVersionSecondContentChangeIsNotCoveredByAnOlderAcknowledgment() {
+        var policy = SkillGovernancePolicy()
+        // A human reviewed and accepted the FIRST 27.2 content (hash "bbb").
+        policy.acknowledge("swiftui-specialist", contentHash: "bbb")
+
+        // Apple ships a SECOND change under the same "27.2" label (hash "ccc").
+        let secondDrift = SkillDrift.changed(
+            name: "swiftui-specialist",
+            locked: SkillDefinition(name: "swiftui-specialist", version: "27.2", contentHash: "bbb", sourceToolchain: "Xcode 27.2"),
+            live: SkillDefinition(name: "swiftui-specialist", version: "27.2", contentHash: "ccc", sourceToolchain: "Xcode 27.2")
+        )
+
+        let failures = policy.unacknowledgedDrifts(in: [secondDrift])
+        XCTAssertEqual(failures.count, 1, "a version-label match alone must never satisfy an acknowledgment")
     }
 
     func testAddedSkillRequiresExplicitAddedAcknowledgement() {
@@ -162,7 +184,7 @@ final class SkillLockKitTests: XCTestCase {
         var unacknowledgedPolicy = SkillGovernancePolicy()
         XCTAssertEqual(unacknowledgedPolicy.unacknowledgedDrifts(in: [drift]).count, 1)
 
-        unacknowledgedPolicy.acknowledge("app-resizability", throughVersion: "added")
+        unacknowledgedPolicy.acknowledgeAddition("app-resizability")
         XCTAssertTrue(unacknowledgedPolicy.unacknowledgedDrifts(in: [drift]).isEmpty)
     }
 
