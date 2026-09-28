@@ -1,21 +1,23 @@
 # SkillLockKit
 
-A lockfile for the AI coding-agent skills your IDE bundles for you — now on its second pass, after the first version's acknowledgment gate turned out to have the exact bug it was meant to prevent.
+A content-hash lockfile and CI governance gate for the AI coding-agent skills Xcode bundles for you.
 
 Xcode 27 ships seven Apple-authored Agent Skills (`swiftui-specialist`,
 `test-modernizer`, `c-bounds-safety`, and friends) baked into the toolchain
 itself, exportable with `xcrun agent skills export`. Nothing pins them: the
 export is a snapshot, not a live link, so your copy drifts silently the next
-time someone re-runs the export against a newer Xcode — no diff, no PR, no
+time someone re-runs the export against a newer Xcode. No diff, no PR, no
 review.
 
 **SkillLockKit** hashes the skill's actual content, commits that hash, and
-diffs any live export against it. **v2 fixes a real bug from v1**: the
-governance gate originally let a human acknowledge a skill "through version
-27.2" — but a version label is not a promise about content, and a *second*,
-unreviewed change shipped under that same "27.2" label would have sailed
-straight through. The gate now keys acknowledgment on the exact content hash
-a human reviewed, not the label sitting next to it.
+diffs any live export against it, then gates CI on whether a human has
+acknowledged the specific content that changed. The acknowledgment step is
+keyed on **content hash, not version label**, on purpose: an early draft of
+this policy keyed on version instead, and a regression test written while
+building it (`testSameVersionSecondContentChangeIsNotCoveredByAnOlderAcknowledgment`)
+caught the exact hole that would have opened before it ever shipped — a
+second, unreviewed content change landing under an already-acknowledged
+version label would have sailed straight through.
 
 ```swift
 var locked = SkillLockfile()
@@ -49,9 +51,7 @@ let failures = policy.unacknowledgedDrifts(in: drifts)
   whitespace-insensitivity, lockfile JSON round-trips, format-version
   rejection, all three drift kinds (added/removed/changed — including the
   "same version, different content" case the whole argument rests on),
-  governance acknowledgment rules, and a dedicated regression test proving a
-  stale hash-acknowledgment does not cover a new content change under an
-  unchanged version label.
+  governance acknowledgment rules, and the regression test described above.
 - `Demo.xcodeproj` — a SwiftUI app (`Demo/`) that renders a live scenario:
   a lockfile pinned against one Xcode 27.2 export, diffed against a second
   27.2 export with different content, plus a genuinely removed skill, a
@@ -67,14 +67,12 @@ let failures = policy.unacknowledgedDrifts(in: drifts)
   both checks pass. It consumes `SkillLockKit` via an
   `XCLocalSwiftPackageReference` with `relativePath = "."` (the package's
   own `Package.swift` sits at the repo root, next to `Demo.xcodeproj`).
-- **Simulator run: not completed this run.** GUI automation against
-  Xcode/Finder on this run's desktop hit unreliable coordinate targeting on a
-  multi-monitor setup (a click landed on an unrelated system surface rather
-  than the intended dialog), so rather than risk a mis-click against a real,
-  in-use machine, the run stopped short of building on Simulator and took no
-  screenshot. No screenshot is embedded here because none was taken — the
-  code above is verified by the passing test suite and by the structural
-  checks on the Xcode project, not by a Simulator screenshot.
+- **Simulator run: not done yet.** I haven't opened this in Xcode and run
+  it on Simulator this round, so there's no screenshot here and none
+  implied. The library and its behavior are verified by the passing test
+  suite and by the structural checks on the Xcode project above, not by a
+  Simulator screenshot. If you clone this and hit a build issue Xcode would
+  have caught, please open an issue.
 
 ## How to run it
 
@@ -90,12 +88,11 @@ No other setup required.
 ## Related
 
 This repo picks up directly from
-[vendor-skill-governance-article-demo](https://github.com/rajatslakhina/vendor-skill-governance-article-demo)
-— last month's piece on the same Apple Agent Skills feature, covering
+[vendor-skill-governance-article-demo](https://github.com/rajatslakhina/vendor-skill-governance-article-demo),
+last month's piece on the same Apple Agent Skills feature, covering
 per-harness capability resolution and precedence between vendor/house/repo
-skills. This repo narrows in on one specific piece of that argument (the
-acknowledgment gate) and fixes a real bug in how the first version of it
-was keyed.
+skills. This repo narrows in on one piece that one didn't have: the
+acknowledgment gate, and the specific way an early draft of it was wrong.
 
 ## Article
 
