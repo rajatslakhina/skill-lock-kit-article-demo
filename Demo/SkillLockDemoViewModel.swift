@@ -66,15 +66,18 @@ final class SkillLockDemoViewModel: ObservableObject {
     }
 
     /// The scenario the article and the README both describe: a lockfile
-    /// committed against Xcode 27.0, diffed against a live export from a
-    /// teammate on Xcode 27.2 two point releases later.
+    /// committed against one Xcode 27.2 export, diffed against a second,
+    /// later 27.2 export. Same Xcode *version label* on both sides — the
+    /// flagship `swiftui-specialist` case below still shows real drift,
+    /// because the lockfile compares content hashes, never the label.
     static func sampleFleetScenario() -> SkillLockDemoViewModel {
         var locked = SkillLockfile()
+        // The flagship case: locked under "27.2", content A.
         locked.lock(SkillDefinition(
             name: "swiftui-specialist",
-            version: "27.0",
+            version: "27.2",
             markdownContent: "Prefer static linkage for leaf modules; avoid dynamic frameworks below 12 targets.",
-            sourceToolchain: "Xcode 27.0"
+            sourceToolchain: "Xcode 27.2"
         ))
         locked.lock(SkillDefinition(
             name: "uikit-app-modernization",
@@ -96,29 +99,24 @@ final class SkillLockDemoViewModel: ObservableObject {
         ))
 
         var live = SkillLockfile()
-        // Unchanged.
+        // Unchanged — identical content, so no drift is reported for this one.
         live.lock(SkillDefinition(
             name: "test-modernizer",
             version: "27.0",
             markdownContent: "Convert XCTest cases to Swift Testing @Test functions where there is no XCUIElement dependency.",
             sourceToolchain: "Xcode 27.2"
         ))
-        // Changed: same version number bump target, but the advice flipped —
-        // exactly the "version label lies, content is truth" case the
-        // library's tests pin down.
+        // Changed: SAME "27.2" version label as the locked copy above, but the
+        // advice flipped underneath it. A version check would see "27.2 ==
+        // 27.2" and wave this through; the content hash catches it.
         live.lock(SkillDefinition(
             name: "swiftui-specialist",
             version: "27.2",
             markdownContent: "Prefer dynamic frameworks for leaf modules; static linkage now regresses incremental build time.",
             sourceToolchain: "Xcode 27.2"
         ))
-        // Removed from the live export (Apple deprecated or renamed it).
-        live.lock(SkillDefinition(
-            name: "c-bounds-safety",
-            version: "27.0",
-            markdownContent: "Flag unchecked pointer arithmetic in C interop shims; suggest BoundsChecked wrappers.",
-            sourceToolchain: "Xcode 27.0"
-        ))
+        // c-bounds-safety and uikit-app-modernization are both absent from
+        // this live export — genuinely removed, not just left unmentioned.
         // Added in a point release, never vendored.
         live.lock(SkillDefinition(
             name: "app-resizability",
@@ -128,12 +126,13 @@ final class SkillLockDemoViewModel: ObservableObject {
         ))
 
         var policy = SkillGovernancePolicy()
-        // uikit-app-modernization was dropped from the live export here too
-        // (folded into swiftui-specialist upstream) — acknowledge it so the
-        // demo shows one drift that passes review alongside the ones that
-        // don't.
-        policy.acknowledge("uikit-app-modernization", throughVersion: "removed")
-        live.remove(named: "uikit-app-modernization")
+        // uikit-app-modernization's removal was reviewed and accepted (it was
+        // folded into swiftui-specialist upstream) — this is the one drift
+        // that passes the gate. swiftui-specialist's content change,
+        // c-bounds-safety's removal, and app-resizability's addition are all
+        // left unacknowledged on purpose, so the demo's CI banner fails —
+        // that failure is the point: nobody has reviewed them yet.
+        policy.acknowledgeRemoval("uikit-app-modernization")
 
         return SkillLockDemoViewModel(locked: locked, live: live, policy: policy)
     }
